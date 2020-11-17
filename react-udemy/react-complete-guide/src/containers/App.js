@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component{
 
@@ -46,45 +46,25 @@ class App extends Component{
   }
 
   render(){
-    let btnClass = [];
     let persons = null;
     
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id}>
-              <Person                     
-                    name={person.name} 
-                    age={person.age}
-                    click={() => this.deletePersonHandler(index)}
-                    changed={(event) => this.nameChangedHandler(event, person.id)}/>
-                    </ErrorBoundary>
-          })}
-          </div>
-      );
-
-      btnClass = classes.Red;
+          <Persons persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}></Persons>          
+        </div>
+      );     
     }
-
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red);
-    } 
-    if(this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold);
-    } 
 
     return (
         <div className={classes.App}>
-        <h1>Hi, I am a React App</h1>
-        <p className={assignedClasses.join(' ')}>This is really working</p>
-        <button className={btnClass} onClick={this.togglePersonsHandler}>
-          Toggle Persons
-        </button>
-
+          <Cockpit 
+          showPersons={this.state.showPersons}
+          persons={this.state.persons} 
+          clicked={this.togglePersonsHandler}/>
           {persons}
-
         </div>
       // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi, I am a React App!!!'));
     );

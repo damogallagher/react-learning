@@ -82,8 +82,8 @@ class ContactData extends Component {
                 elementType: 'select',
                 elementConfig: {
                     options: [
-                        {value: 'fastest', displayValue: 'Fastest'},
-                        {value: 'cheapest', displayValue: 'Cheapest'}
+                        { value: 'fastest', displayValue: 'Fastest' },
+                        { value: 'cheapest', displayValue: 'Cheapest' }
                     ]
                 },
                 value: 'fastest',
@@ -105,9 +105,9 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ings,
             price: this.props.price,
-            orderData: formData            
+            orderData: formData
         }
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger(order, this.props.token);
     }
 
     checkValidity(value, rules) {
@@ -149,9 +149,9 @@ class ContactData extends Component {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
 
-        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid})
+        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid })
     }
-    render () {
+    render() {
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
             formElementsArray.push({
@@ -159,20 +159,21 @@ class ContactData extends Component {
                 config: this.state.orderForm[key]
             });
         }
-        let form = (<form onSubmit={this.orderHandler}>
-            {formElementsArray.map(formElement =>  (
-                <Input 
-                    key={formElement.id}
-                    elementType={formElement.config.elementType} 
-                    elementConfig={formElement.config.elementConfig}
-                    value={formElement.config.value}
-                    invalid={!formElement.config.valid}
-                    shouldValidate={formElement.config.validation}
-                    touched={formElement.config.touched}
-                    changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
-            ))}
-            <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
-        </form>);
+        let form = (
+            <form onSubmit={this.orderHandler}>
+                {formElementsArray.map(formElement => (
+                    <Input
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        invalid={!formElement.config.valid}
+                        shouldValidate={formElement.config.validation}
+                        touched={formElement.config.touched}
+                        changed={(event) => this.inputChangedHandler(event, formElement.id)} />
+                ))}
+                <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
+            </form>);
         if (this.props.loading) {
             form = <Spinner />;
         }
@@ -189,13 +190,14 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler( ContactData, axios ));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

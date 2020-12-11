@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 const app = (
     <BrowserRouter>
-        <APp />
+        <App />
     </BrowserRouter>
 );
 

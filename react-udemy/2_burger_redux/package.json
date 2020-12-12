@@ -1,5 +1,5 @@
 {
-  "name": "burger-reduxs",
+  "name": "burger-redux",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import MovieList from './components/MovieList/MovieList';
@@ -29,7 +29,7 @@ const App = () => {
       console.log('pre set movies');
       setMovies(responseJson.Search);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -52,12 +52,12 @@ const App = () => {
   const addFavouriteMovie = (movie) => {
     console.log('movie:', movie);
 
-    const returnedMovie = favourites.filter(m => m.imdbID === movie.imdbID);
+    const returnedMovie = favourites.filter((m) => m.imdbID === movie.imdbID);
     console.log('returnedMovie:', returnedMovie);
     if (returnedMovie !== null && returnedMovie.length > 0) {
       console.log('Movie already added to favourites');
       setError(true);
-    setErrorMessage('This movie is already set as a favourite');
+      setErrorMessage('This movie is already set as a favourite');
       return;
     }
 
@@ -69,7 +69,7 @@ const App = () => {
 
   const removeFavouriteMovie = (movie) => {
     const newFavouriteList = favourites.filter(
-      (favourite) => favourite.imdbID !== movie.imdbID
+        (favourite) => favourite.imdbID !== movie.imdbID,
     );
 
     setFavourites(newFavouriteList);
@@ -79,18 +79,18 @@ const App = () => {
   const removeModalHandler = () => {
     setError(false);
     setErrorMessage(null);
+  };
+
+  let modalMessage = null;
+  if (error) {
+    modalMessage = (
+      <Modal show={error} modalClosed={removeModalHandler}>
+        {errorMessage}
+      </Modal>
+    );
   }
 
-  let modalMessage = null
-    if (error) {
-      modalMessage = (
-            <Modal show={error} modalClosed={removeModalHandler}>
-                {errorMessage}
-            </Modal>
-      )
-    }
-
-   let spinner = loading ? <Spinner /> : null;
+  const spinner = loading ? <Spinner /> : null;
 
   return (
     <div className='container-fluid movie-app'>
@@ -111,11 +111,11 @@ const App = () => {
       </div>
       <div className='row'>
         <MovieList
-            movies={favourites}
-            handleFavouritesClick={removeFavouriteMovie}
-            favouriteComponent={RemoveFavourites}
-          />
-          {modalMessage}
+          movies={favourites}
+          handleFavouritesClick={removeFavouriteMovie}
+          favouriteComponent={RemoveFavourites}
+        />
+        {modalMessage}
       </div>
     </div>
   );

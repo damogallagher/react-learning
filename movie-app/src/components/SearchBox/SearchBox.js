@@ -1,16 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchBox = (props) => {
-	return (
-		<div className='col col-sm-4'>
-			<input
-				className='form-control'
-				value={props.value}
-				onChange={(event) => props.setSearchValue(event.target.value)}
-				placeholder='Type to search...'
-			></input>
-		</div>
-	);
+  return (
+    <div className='col col-sm-4'>
+      <input
+        className='form-control'
+        value={props.value}
+        onChange={(event) => props.setSearchValue(event.target.value)}
+        placeholder='Type to search...'
+      ></input>
+    </div>
+  );
+};
+
+
+SearchBox.propTypes = {
+  value: PropTypes.string,
+  setSearchValue: PropTypes.func,
 };
 
 export default SearchBox;
